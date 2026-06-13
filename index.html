@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House of the Hollow Sun</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&display=swap');
+
+        :root {
+            --bg-pure:      #0e0a07;
+            --bg-deep:      #070503;
+            --bg-card:      #161008;
+            --bg-hover:     #1e1610;
+            --border-dim:   #3a2410;
+            --border-mid:   #5a3818;
+            --blood-dark:   #5a1010;
+            --blood-red:    #8b1a1a;
+            --blood-bright: #b02020;
+            --gold:         #c9a030;
+            --gold-dim:     #a07820;
+            --text-bright:  #e8dfc0;
+            --text-main:    #c0a878;
+            --text-muted:   #7a6040;
+            --text-ghost:   #6a4a2a;
+        }
+.quote-block {
+    /* Existing styles remain */
+    font-style: italic;
+    color: var(--text-muted);
+    border-left: 2px solid var(--blood-red);
+    padding-left: 18px;
+    margin-bottom: 36px;
+    max-width: 480px;
+    font-size: 1.2rem;
+    line-height: 1.8;
+}
+
+.quote-content {
+    /* This creates the translucent box effect */
+    background: rgba(0, 0, 0, 0.4);
+    padding: 10px;
+    border-radius: 4px;
+}
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+       body {
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: var(--bg-pure); /* Fallback color */
+    color: var(--text-main);
+    font-family: 'Courier New', Courier, monospace;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+
+        /* ── NAV ── */
+        header {
+            background: var(--bg-deep);
+            border-bottom: 1px solid var(--border-dim);
+            padding: 18px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-flex { display: flex; justify-content: space-between; align-items: center; }
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 16px;
+            letter-spacing: 3px;
+            color: var(--gold);
+            text-transform: uppercase;
+        }
+        .logo-dim { color: var(--text-muted); }
+        nav a {
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 28px;
+            cursor: pointer;
+            transition: color 0.15s;
+        }
+        nav a:hover, nav a.active { color: var(--gold); }
+
+        /* ── VIEW SWITCHING ── */
+        .view { display: none; }
+        .view.active { display: block; }
+
+        /* ── BLOOD BAR ── */
+        .blood-bar { height: 2px; background: var(--blood-red); }
+
+        /* ══════════════════════════════════════
+           HOME PAGE
+        ══════════════════════════════════════ */
+        .hero-split {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            border-bottom: 2px solid var(--border-mid);
+            min-height: 480px;
+        }
+        .hero-left {
+            padding: 60px 40px 60px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-right: 2px solid var(--border-dim);
+        }
+        .eyebrow {
+            font-size: 13px;
+            letter-spacing: 4px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+        .hero-left h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--gold);
+            line-height: 1.2;
+            margin-bottom: 28px;
+        }
+        .hero-left h1 span { color: var(--blood-red); }
+        .quote-block {
+            font-style: italic;
+            color: var(--text-muted);
+            border-left: 2px solid var(--blood-red);
+            padding-left: 18px;
+            margin-bottom: 36px;
+            max-width: 480px;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+        .btn-group { display: flex; gap: 16px; }
+        .btn-primary {
+            background: var(--blood-red);
+            border: 1px solid var(--blood-bright);
+            color: #fff;
+            padding: 12px 24px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
+            transition: background 0.15s;
+            text-decoration: none;
+        }
+        .btn-primary:hover { background: var(--blood-bright); }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border-mid);
+            color: var(--text-bright);
+            padding: 12px 24px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
+            transition: border-color 0.15s, color 0.15s;
+        }
+        .btn-outline:hover { border-color: var(--gold-dim); color: var(--gold); }
+        .hero-right {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            background: radial-gradient(circle at center, #180a04 0%, var(--bg-deep) 70%);
+        }
+        .sun-large { width: 220px; height: 220px; opacity: 0.85; }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border-bottom: 2px solid var(--border-mid);
+        }
+        .info-card {
+            padding: 36px 28px;
+            border-right: 2px solid var(--border-dim);
+            background: var(--bg-card);
+            transition: background 0.15s;
+        }
+        .info-card:last-child { border-right: none; }
+        .info-card.clickable { cursor: pointer; }
+        .info-card.clickable:hover { background: var(--bg-card); }
+        .card-tag {
+            display: block;
+            font-size: 13px;
+            letter-spacing: 2px;
+            color: var(--blood-red);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .info-card h3 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+        .info-card p { color: var(--text-muted); font-size: 16px; line-height: 1.7; }
+
+        .bottom-split {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+        }
+        .hierarchy-panel {
+            padding: 48px 40px 48px 0;
+            border-right: 2px solid var(--border-dim);
+        }
+        .panel-label {
+            font-size: 13px;
+            letter-spacing: 4px;
+            color: var(--text-ghost);
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            display: block;
+        }
+        .rank-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 14px;
+            border-bottom: 1px solid var(--border-dim);
+            background: var(--bg-card);
+            margin-bottom: 2px;
+        }
+        .rank-row:last-child { border-bottom: none; margin-bottom: 0; }
+        .rank-name {
+            font-family: 'Cinzel', serif;
+            font-size: 16px;
+            color: var(--text-bright);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .rank-pip {
+            display: inline-block;
+            width: 3px;
+            height: 18px;
+            background: var(--text-muted);
+            flex-shrink: 0;
+        }
+        .pip-gold  { background: var(--gold-dim); }
+        .pip-blood { background: var(--blood-red); }
+        .pip-dim   { background: var(--border-mid); }
+        .rank-desc { font-size: 15px; color: var(--text-muted); }
+
+        .doctrine-panel {
+            padding: 48px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .sun-small { width: 72px; height: 72px; margin-bottom: 22px; }
+        .doctrine-quote {
+            font-style: italic;
+            color: var(--text-muted);
+            font-size: 16px;
+            letter-spacing: 1px;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+        .doctrine-attr {
+            font-size: 13px;
+            letter-spacing: 2px;
+            color: var(--blood-red);
+            text-transform: uppercase;
+        }
+
+        /* ══════════════════════════════════════
+           LOOT DATABASE PAGE
+        ══════════════════════════════════════ */
+        .db-header {
+            padding: 36px 0 24px;
+            border-bottom: 1px solid var(--border-dim);
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+        }
+        .db-header h2 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            font-size: 1.7rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        .db-header p { color: var(--text-muted); font-size: 15px; margin-top: 4px; }
+        .db-total { font-family: 'Cinzel', serif; font-size: 2rem; color: var(--blood-red); text-align: right; }
+        .db-total-label { font-size: 13px; letter-spacing: 2px; color: var(--text-ghost); text-transform: uppercase; }
+
+        .filter-dashboard {
+            background: var(--bg-card);
+            border: 1px solid var(--border-dim);
+            border-top: none;
+            padding: 24px;
+        }
+        .search-wrap { margin-bottom: 22px; }
+        .db-search {
+            width: 100%;
+            background: var(--bg-deep);
+            border: 1px solid var(--border-dim);
+            color: var(--text-bright);
+            padding: 13px 18px;
+            font-size: 16px;
+            font-family: 'Courier New', monospace;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+        .db-search:focus { border-color: var(--blood-red); }
+        .db-search::placeholder { color: var(--text-ghost); }
+
+        .filter-label {
+            font-size: 13px;
+            letter-spacing: 3px;
+            color: var(--text-ghost);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .filter-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+        .filter-row:last-child { margin-bottom: 0; }
+
+        .f-btn {
+            background: var(--bg-deep);
+            border: 1px solid var(--border-dim);
+            color: var(--text-muted);
+            padding: 8px 16px;
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            transition: border-color 0.15s, color 0.15s, background 0.15s;
+        }
+        .f-btn:hover { border-color: var(--border-mid); color: var(--gold-dim); }
+        .f-btn.active { background: var(--blood-dark); border-color: var(--blood-red); color: #fff; }
+        .f-btn.active:hover { background: var(--blood-red); }
+
+        /* Results area */
+        .db-results { min-height: 260px; margin-bottom: 60px; }
+
+        .db-idle {
+            border: 1px solid var(--border-dim);
+            border-top: none;
+            padding: 72px 32px;
+            text-align: center;
+            background: var(--bg-card);
+        }
+        .db-idle-sun { margin: 0 auto 20px; }
+        .db-idle-text {
+            font-family: 'Cinzel', serif;
+            font-size: 16px;
+            color: var(--text-ghost);
+            font-style: italic;
+        }
+        .db-idle-sub {
+            font-size: 13px;
+            letter-spacing: 2px;
+            color: var(--text-ghost);
+            text-transform: uppercase;
+            margin-top: 8px;
+            opacity: 0.5;
+        }
+
+        .db-result-bar {
+            background: var(--bg-deep);
+            border: 1px solid var(--border-dim);
+            border-top: none;
+            border-bottom: none;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .db-result-title {
+            font-family: 'Cinzel', serif;
+            font-size: 14px;
+            color: var(--blood-red);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .db-result-count { font-size: 14px; color: var(--text-ghost); }
+
+        .table-wrap {
+            border: 1px solid var(--border-dim);
+            border-top: none;
+            overflow-x: auto;
+            background: var(--bg-card);
+        }
+        table { width: 100%; border-collapse: collapse; font-size: 16px; }
+        thead tr { background: var(--bg-deep); border-bottom: 2px solid var(--blood-dark); }
+        th {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-dim);
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 13px 18px;
+            text-align: left;
+            font-weight: 400;
+            white-space: nowrap;
+        }
+        th.rate-th { text-align: center; }
+        tbody tr { border-bottom: 1px solid var(--border-dim); }
+        tbody tr:last-child { border-bottom: none; }
+        tbody tr:hover td { background: var(--bg-hover); }
+        td { padding: 12px 18px; color: var(--text-muted); vertical-align: middle; }
+        td.td-name { color: var(--text-bright); font-weight: bold; max-width: 240px; }
+        td.td-cat { font-size: 13px; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; }
+        td.td-rate { text-align: center; font-family: 'Cinzel', serif; font-size: 14px; white-space: nowrap; }
+
+        .cat-weapons       { color: var(--blood-red); }
+        .cat-augmentations { color: var(--gold-dim); }
+        .cat-garments      { color: #5a7050; }
+        .cat-tools         { color: #4a5870; }
+        .cat-consumables   { color: #7a5040; }
+
+        .rate-high { color: var(--blood-bright); }
+        .rate-mid  { color: var(--gold-dim); }
+        .rate-low  { color: var(--text-muted); }
+        .rate-none { color: var(--border-mid); }
+
+        .db-empty {
+            border: 1px solid var(--border-dim);
+            border-top: none;
+            padding: 48px;
+            text-align: center;
+            font-family: 'Cinzel', serif;
+            font-size: 16px;
+            color: var(--text-ghost);
+            font-style: italic;
+            background: var(--bg-card);
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            border-top: 1px solid var(--border-dim);
+            padding: 22px 0;
+        }
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: var(--text-ghost);
+            letter-spacing: 1px;
+        }
+        .footer-link {
+            background: none;
+            border: 1px solid var(--border-dim);
+            color: var(--text-muted);
+            padding: 8px 16px;
+            font-size: 13px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            transition: border-color 0.15s, color 0.15s;
+            text-decoration: none;
+        }
+        .footer-link:hover { border-color: var(--blood-red); color: var(--gold); }
+        /* ══════════════════════════════════════
+           MIN/MAX PAGE
+        ══════════════════════════════════════ */
+        .mm-header {
+            padding: 36px 0 24px;
+            border-bottom: 1px solid var(--border-dim);
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+        }
+        .mm-header h2 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            font-size: 1.7rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        .mm-header p { color: var(--text-muted); font-size: 15px; margin-top: 4px; }
+
+        .mm-filter-dashboard {
+            background: var(--bg-card);
+            border: 1px solid var(--border-dim);
+            border-top: none;
+            padding: 24px;
+        }
+        .mm-filter-group { margin-bottom: 18px; }
+        .mm-filter-group:last-child { margin-bottom: 0; }
+
+        .f-btn:disabled,
+        .f-btn.f-btn-disabled {
+            opacity: 0.28;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .mm-results { min-height: 260px; margin-bottom: 60px; }
+
+        .mm-result-bar {
+            background: var(--bg-deep);
+            border: 1px solid var(--border-dim);
+            border-top: none;
+            border-bottom: none;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .mm-result-title {
+            font-family: 'Cinzel', serif;
+            font-size: 14px;
+            color: var(--blood-red);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .mm-result-count { font-size: 14px; color: var(--text-ghost); }
+
+        .mm-table-wrap {
+            border: 1px solid var(--border-dim);
+            border-top: none;
+            overflow-x: auto;
+            background: var(--bg-card);
+            margin-bottom: 60px;
+        }
+        .mm-table-wrap table { width: 100%; border-collapse: collapse; font-size: 16px; }
+        .mm-table-wrap thead tr { background: var(--bg-deep); border-bottom: 2px solid var(--blood-dark); }
+        .mm-table-wrap th {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-dim);
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 13px 18px;
+            text-align: left;
+            font-weight: 400;
+            white-space: nowrap;
+        }
+        .mm-table-wrap th.th-num { text-align: center; }
+        .mm-table-wrap tbody tr { border-bottom: 1px solid var(--border-dim); }
+        .mm-table-wrap tbody tr:last-child { border-bottom: none; }
+        .mm-table-wrap tbody tr:hover td { background: var(--bg-hover); }
+        .mm-table-wrap td { padding: 12px 18px; color: var(--text-muted); vertical-align: top; }
+        .mm-table-wrap td.td-rank {
+            text-align: center;
+            font-family: 'Cinzel', serif;
+            font-size: 15px;
+            color: var(--text-ghost);
+            white-space: nowrap;
+        }
+        .mm-table-wrap td.td-weapon {
+            color: var(--text-bright);
+            font-weight: bold;
+            font-size: 16px;
+            white-space: nowrap;
+        }
+        .mm-table-wrap td.td-type {
+            font-size: 13px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+        .mm-type-body     { color: var(--blood-red); }
+        .mm-type-headshot { color: var(--gold-dim); }
+        .mm-type-shield   { color: #4a5870; }
+        .mm-table-wrap td.td-build {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.7;
+            min-width: 220px;
+        }
+        .mm-table-wrap td.td-build .build-aug {
+            display: block;
+            color: var(--text-ghost);
+            font-size: 13px;
+        }
+        .mm-table-wrap td.td-build .build-aug + .build-aug { margin-top: 2px; }
+        .mm-table-wrap td.td-dps {
+            text-align: right;
+            font-family: 'Cinzel', serif;
+            font-size: 15px;
+            white-space: nowrap;
+            padding-right: 22px;
+        }
+        .mm-table-wrap td.td-notes {
+            font-size: 14px;
+            color: var(--text-ghost);
+            line-height: 1.6;
+            min-width: 180px;
+        }
+
+        .dps-high { color: var(--blood-bright); }
+        .dps-mid  { color: var(--gold-dim); }
+        .dps-low  { color: var(--text-muted); }
+
+        .mm-no-data {
+            border: 1px solid var(--border-dim);
+            border-top: none;
+            padding: 48px;
+            text-align: center;
+            font-family: 'Cinzel', serif;
+            font-size: 16px;
+            color: var(--text-ghost);
+            font-style: italic;
+            background: var(--bg-card);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container nav-flex">
+        <div class="logo">☽ House of the <span class="logo-dim">Hollow Sun</span></div>
+        <nav id="mainNav">
+            <a onclick="switchView('home')" id="nav-home" class="active">Main</a>
+            <a onclick="switchView('roster')" id="nav-roster">Roster</a>
+            <a onclick="switchView('loot')" id="nav-loot">Loot</a>
+            <a onclick="switchView('minmax')" id="nav-minmax">Min/Max</a>
+            <a onclick="switchView('deepdesert')" id="nav-deepdesert">Deep Desert</a>
+            <a href="https://discord.gg/zNzHRwdEUU" target="_blank">Join</a>
+        </nav>
+    </div>
+</header>
+<div class="blood-bar"></div>
+
+<!-- ══════ HOME VIEW ══════ -->
+<div id="view-home" class="view active">
+<main class="container">
+
+    <section class="hero-split">
+        <div class="hero-left">
+            <div class="eyebrow">Harkonnen Aligned · North America · Nova · Yaracuwan</div>
+            <h1>House of the<br><span>Hollow Sun</span></h1>
+            <div class="quote-block">
+                <div class="quote-content">
+        "When I am weaker than you, I ask you for freedom because that is according to your principles; when I am stronger than you, I take away your freedom because that is according to my principles."
+                </div>
+                    </div>
+            <div class="btn-group">
+                <a href="https://discord.gg/zNzHRwdEUU" target="_blank" class="btn-primary">Seek Entry</a>
+                <button class="btn-outline" onclick="switchView('lore')">Our Chronicle</button>
+            </div>
+        </div>
+        <div class="hero-right">
+            <svg class="sun-large" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="100" r="90" fill="none" stroke="#1a0a04" stroke-width="1"/>
+                <circle cx="100" cy="100" r="78" fill="none" stroke="#220e06" stroke-width="0.5"/>
+                <circle cx="100" cy="100" r="64" fill="none" stroke="#2a1008" stroke-width="1"/>
+                <circle cx="100" cy="100" r="50" fill="none" stroke="#3a1a0a" stroke-width="0.5"/>
+                <circle cx="100" cy="100" r="36" fill="none" stroke="#4a1a0a" stroke-width="1"/>
+                <circle cx="100" cy="100" r="22" fill="#0d0604" stroke="#5a1a1a" stroke-width="1.5"/>
+                <circle cx="100" cy="100" r="9"  fill="#1a0604"/>
+                <circle cx="100" cy="100" r="3"  fill="#8b1a1a"/>
+                <line x1="100" y1="10"  x2="100" y2="38"  stroke="#2a1008" stroke-width="0.5"/>
+                <line x1="100" y1="162" x2="100" y2="190" stroke="#2a1008" stroke-width="0.5"/>
+                <line x1="10"  y1="100" x2="38"  y2="100" stroke="#2a1008" stroke-width="0.5"/>
+                <line x1="162" y1="100" x2="190" y2="100" stroke="#2a1008" stroke-width="0.5"/>
+                <line x1="27"  y1="27"  x2="46"  y2="46"  stroke="#1e0a04" stroke-width="0.5"/>
+                <line x1="154" y1="154" x2="173" y2="173" stroke="#1e0a04" stroke-width="0.5"/>
+                <line x1="173" y1="27"  x2="154" y2="46"  stroke="#1e0a04" stroke-width="0.5"/>
+                <line x1="27"  y1="173" x2="46"  y2="154" stroke="#1e0a04" stroke-width="0.5"/>
+                <polygon points="100,10  103,22  100,18  97,22"  fill="#5a1a1a"/>
+                <polygon points="100,190 103,178 100,182 97,178" fill="#5a1a1a"/>
+                <polygon points="10,100  22,97   18,100  22,103" fill="#5a1a1a"/>
+                <polygon points="190,100 178,97  182,100 178,103" fill="#5a1a1a"/>
+                <polygon points="27,27   34,38   28,33   38,34"  fill="#3a1008"/>
+                <polygon points="173,173 166,162 172,167 162,166" fill="#3a1008"/>
+                <polygon points="173,27  162,34  167,28  166,38"  fill="#3a1008"/>
+                <polygon points="27,173  38,166  33,172  34,162"  fill="#3a1008"/>
+                <text x="100" y="104" text-anchor="middle" fill="#2a1008" font-size="7" letter-spacing="3" font-family="Cinzel,serif">HOLLOW SUN</text>
+                <circle cx="100" cy="100" r="64" fill="none" stroke="#8b1a1a" stroke-width="0.5" stroke-dasharray="4 6"/>
+            </svg>
+        </div>
+    </section>
+
+    <section class="info-grid">
+        <div class="info-card">
+            <span class="card-tag">Operations</span>
+            <h3>Overland Campaigns</h3>
+            <p>Coordinated strikes across testing stations. Cross-referenced loot tracking maintained by guild Mentats. Guild access loot storages.</p>
+        </div>
+        <div class="info-card clickable" onclick="switchView('loot')">
+            <span class="card-tag">Intelligence</span>
+            <h3>Loot Database</h3>
+            <p>Compiled from six stations. Catalogued cross-reference items. Drop rates tracked. Actively monitored and updated.</p>
+        </div>
+        <div class="info-card">
+            <span class="card-tag">Brotherhood</span>
+            <h3>The Inner Circle</h3>
+            <p>We move as one. Discord-based support and communications. Needs are met. Weakness purged.</p>
+        </div>
+    </section>
+
+    <section class="bottom-split">
+        <div class="hierarchy-panel">
+            <span class="panel-label">The Hierarchy</span>
+            <div class="rank-row">
+                <span class="rank-name"><span class="rank-pip pip-gold"></span><strong>Na-Baron of the Void</strong></span>
+                <span class="rank-desc">Guild Leader</span>
+            </div>
+            <div class="rank-row">
+                <span class="rank-name"><span class="rank-pip pip-blood"></span>Terror-Lords</span>
+                <span class="rank-desc">High Ranked Officers</span>
+
+            </div>
+            <div class="rank-row">
+                <span class="rank-name"><span class="rank-pip pip-dim"></span>Sietch Breaker</span>
+                <span class="rank-desc">Veteran Enforcer</span>
+            </div>
+            <div class="rank-row">
+                <span class="rank-name"><span class="rank-pip pip-blood"></span>Harvester</span>
+                <span class="rank-desc">Proven Member</span>
+            </div>
+
+            <div class="rank-row">
+                <span class="rank-name"><span class="rank-pip pip-dim"></span>Unburned</span>
+                <span class="rank-desc">Under Faction Rank 5</span>
+            </div>
+        </div>
+        <div class="doctrine-panel">
+            <svg class="sun-small" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="40" cy="40" r="36" fill="none" stroke="#1e0a04" stroke-width="0.5"/>
+                <circle cx="40" cy="40" r="28" fill="none" stroke="#2a1008" stroke-width="0.5"/>
+                <circle cx="40" cy="40" r="20" fill="none" stroke="#3a1408" stroke-width="0.5" stroke-dasharray="3 4"/>
+                <circle cx="40" cy="40" r="12" fill="none" stroke="#4a1a10" stroke-width="1"/>
+                <circle cx="40" cy="40" r="5"  fill="#1a0604" stroke="#8b1a1a" stroke-width="1"/>
+                <line x1="40" y1="4"  x2="40" y2="20" stroke="#2a1008" stroke-width="0.5"/>
+                <line x1="40" y1="60" x2="40" y2="76" stroke="#2a1008" stroke-width="0.5"/>
+                <line x1="4"  y1="40" x2="20" y2="40" stroke="#2a1008" stroke-width="0.5"/>
+                <line x1="60" y1="40" x2="76" y2="40" stroke="#2a1008" stroke-width="0.5"/>
+                <polygon points="40,4  42,12  40,10  38,12" fill="#5a1a1a"/>
+                <polygon points="40,76 42,68  40,70  38,68" fill="#5a1a1a"/>
+                <polygon points="4,40  12,38  10,40  12,42" fill="#5a1a1a"/>
+                <polygon points="76,40 68,38  70,40  68,42" fill="#5a1a1a"/>
+            </svg>
+            <div class="doctrine-quote">"Always do it for an overriding purpose - and know your purpose!"</div>
+            <div class="doctrine-attr">— House Doctrine</div>
+        </div>
+    </section>
+
+</main>
+</div>
+
+<!-- ══════ LOOT VIEW ══════ -->
+<div id="view-loot" class="view">
+<main class="container">
+
+    <section class="db-header">
+        <div>
+            <h2>Loot Intelligence Archive</h2>
+            <p>Strategic item yields mapped across all known overland testing facility sectors.</p>
+        </div>
+        <div style="text-align:right;">
+            <div class="db-total" id="db-count">193</div>
+            <div class="db-total-label">Items catalogued</div>
+        </div>
+    </section>
+
+    <div class="filter-dashboard">
+        <div class="search-wrap">
+            <input type="text" id="dbSearch" class="db-search"
+                   placeholder="Search the archive by item name..."
+                   oninput="applyFilters()">
+        </div>
+
+        <div class="filter-label">Category</div>
+        <div class="filter-row" id="grpCat">
+            <button class="f-btn" data-cat="Weapons"       onclick="setCategory(this)">Weapons</button>
+            <button class="f-btn" data-cat="Augmentations" onclick="setCategory(this)">Augmentations</button>
+            <button class="f-btn" data-cat="Garments"      onclick="setCategory(this)">Garments</button>
+            <button class="f-btn" data-cat="Tools"         onclick="setCategory(this)">Tools</button>
+            <button class="f-btn" data-cat="Consumables"   onclick="setCategory(this)">Consumables</button>
+        </div>
+
+        <div class="filter-label">Station — exclusive drops only</div>
+        <div class="filter-row" id="grpStation">
+            <button class="f-btn" data-cat="MULTI" onclick="setCategory(this)">All Stations</button>
+            <button class="f-btn" data-station="Station 24"  onclick="setStation(this)">Station 24</button>
+            <button class="f-btn" data-station="Station 89"  onclick="setStation(this)">Station 89</button>
+            <button class="f-btn" data-station="Station 136" onclick="setStation(this)">Station 136</button>
+            <button class="f-btn" data-station="Station 152" onclick="setStation(this)">Station 152</button>
+            <button class="f-btn" data-station="Station 195" onclick="setStation(this)">Station 195</button>
+            <button class="f-btn" data-station="The Quarry"  onclick="setStation(this)">The Quarry</button>
+        </div>
+    </div>
+
+    <div class="db-results" id="dbResults">
+        <div class="db-idle" id="dbIdle">
+            <svg width="56" height="56" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" class="db-idle-sun">
+                <circle cx="28" cy="28" r="24" fill="none" stroke="#1a0a04" stroke-width="0.5"/>
+                <circle cx="28" cy="28" r="18" fill="none" stroke="#220e06" stroke-width="0.5"/>
+                <circle cx="28" cy="28" r="12" fill="none" stroke="#2a1008" stroke-width="0.5" stroke-dasharray="3 4"/>
+                <circle cx="28" cy="28" r="7"  fill="none" stroke="#3a1408" stroke-width="1"/>
+                <circle cx="28" cy="28" r="3"  fill="#1a0604" stroke="#8b1a1a" stroke-width="0.8"/>
+                <polygon points="28,4  29.5,10  28,8.5  26.5,10"  fill="#4a1a1a"/>
+                <polygon points="28,52 29.5,46  28,47.5 26.5,46"  fill="#4a1a1a"/>
+                <polygon points="4,28  10,26.5  8.5,28  10,29.5"  fill="#4a1a1a"/>
+                <polygon points="52,28 46,26.5  47.5,28 46,29.5"  fill="#4a1a1a"/>
+            </svg>
+            <p class="db-idle-text">Select a category or station to reveal the archive.</p>
+            <p class="db-idle-sub">Or search by name above</p>
+        </div>
+    </div>
+
+</main>
+</div>
+<div id="view-roster" class="view">
+<main class="container">
+    <section class="db-header">
+        <div>
+            <h2>Guild <span style="color: var(--blood-red);">Roster</span></h2>
+            <p>The Formidable members of the House of the Hollow Sun.</p>
+        </div>
+    </section>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Rank</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td class="td-name">Ma'an Til</td><td>Na-Baron of the Void</td></tr>
+                <tr><td class="td-name">Flaccid Centaur</td><td>Terror-Lord</td></tr>
+                <tr><td class="td-name">izumi</td><td>Terror-Lord</td></tr>
+                <tr><td class="td-name">Zenisha</td><td>Terror-Lord</td></tr>
+                <tr><td class="td-name">ExE</td><td>Terror-Lord</td></tr>
+                <tr><td class="td-name">HauntofCats</td><td>Harvester</td></tr>
+                <tr><td class="td-name">Aquaa</td><td>Sietch Breaker</td></tr>
+                <tr><td class="td-name">Arae</td><td>Sietch Breaker</td></tr>
+                <tr><td class="td-name">Rafi IX</td><td>Harvester</td></tr>
+                <tr><td class="td-name">Solaria</td><td>Harvester</td></tr>
+                <tr><td class="td-name">Moe76</td><td>Harvester</td></tr>
+                <tr><td class="td-name">x IKRispy</td><td>Harvester</td></tr>
+                <tr><td class="td-name">CoZ1Elf</td><td>Harvester</td></tr>
+                <tr><td class="td-name">Cauliflower Muad'Dib'</td><td>Harvester</td></tr>
+                <tr><td class="td-name">Freud</td><td>Harvester</td></tr>
+                <tr><td class="td-name">B'Lue</td><td>Harvester</td></tr>
+                <tr><td class="td-name">Shib</td><td>Harvester</td></tr>
+                <tr><td class="td-name">Crows</td><td>Harvester</td></tr>
+                <tr><td class="td-name">BIG AL</td><td>Harvester</td></tr>
+                <tr><td class="td-name">Chaotic Bliss</td><td>Harvester</td></tr>
+                <tr><td class="td-name">Nixs</td><td>Sietch Breaker</td></tr>
+                <tr><td class="td-name">Ishara Taqir</td><td>Harvester</td></tr>
+                <tr><td class="td-name">Lisan Al Jay</td><td>Harvester</td></tr>
+                <tr><td class="td-name">Tee</td><td>Harvester</td></tr>
+                <tr><td class="td-name">Rayn Vex</td><td>Harvester</td></tr>
+                <tr><td class="td-name">Ray'ven'</td><td>Harvester</td></tr>
+                <tr><td class="td-name">Soulzea</td><td>Harvester</td></tr>
+                <tr><td class="td-name">Allieson</td><td>Unburned</td></tr>
+                <tr><td class="td-name">Boomshay</td><td>Unburned</td></tr>
+                <tr><td class="td-name">Durga</td><td>Unburned</td></tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</div>
+<div id="view-lore" class="view">
+<main class="container">
+    <section class="db-header" style="border: none; padding-top: 60px;">
+        <h2 style="font-family: 'Cinzel', serif; font-size: 3rem; color: var(--gold); text-transform: uppercase; letter-spacing: 3px;">
+            Our <span style="color: var(--blood-red);">Chronicle</span>
+        </h2>
+    </section>
+
+        <section><p style="color: var(--text-muted); font-family: 'Courier New', monospace; font-size: 0.8rem; margin-top: 0px; font-style: italic;">
+        A brief history of our glorious history and rise to the top
+            </p>
+        </section>
+
+    <div style="background: rgba(22, 16, 8, 0.6); border: 1px solid var(--border-dim); padding: 40px; margin-top: 24px; color: var(--text-main); font-family: 'Courier New', monospace; line-height: 1.8; max-width: 800px;">
+
+    <p style="margin-bottom: 20px;"><h3><strong>The Genesis of the Void</strong></h3><br>
+In the early cycles, the Landsraad stood as a closed gate to those walking alone. Seeking influence, Ma’an Til stood apart from the existing political machines, rejecting the call of established banners. Out of this solitary ambition, the House of the Hollow Sun was forged—not as a gathering of the weak, but as a crucible for those who refuse to serve. It began as a whisper in the dunes, a singular will carving out territory where others saw only risk.
+
+    <p style="margin-bottom: 20px;"><h3><strong>The Twin Scourge</strong></h3>
+The ascent accelerated when Izumi stepped from the shifting sands to join the cause. For months, the two operated as a silent, lethal collective—a death squad that acted with singular precision. They did not merely compete for territory; they dismantled opposition. By maintaining an unshakable grip on the Landsraad rankings, the duo proved that sheer tenacity and combat efficiency could override the numerical superiority of larger, bloated factions.</p>
+
+    <p style="margin-bottom: 20px;"><h3><strong>The Expanding Shadow</strong></h3>
+The transition from a lethal pair to a commanding power began with the induction of Exe, an act that signaled a new era of dominance. The House shed its isolationist shell, rapidly absorbing those who possessed the grit to thrive under our banner. We did not grow by chance, but by design. Today, we stand as the preeminent Harkonnen force on the Nova server, a testament to what can be achieved when raw power is unified under a single, <strong>Hollow Sun</strong>.</p>
+
+    <p style="font-family: 'Cinzel', serif; font-size: 1.8rem; color: var(--gold); text-transform: uppercase; letter-spacing: 2px;">
+           <br> Hail Harkonnen<br> <span style="color: var(--blood-red);">Hail the Hollow Sun</span>
+        </h2>
+        </p>
+        </div>
+        </main>
+        </div>
+<div id="view-minmax" class="view">
+<main class="container">
+
+    <section class="mm-header">
+        <div>
+            <h2>Weapon Min/Max</h2>
+            <p>Optimal augment builds and ranked DPS across all weapon classes. Data: community testing.</p>
+        </div>
+    </section>
+
+    <div class="mm-filter-dashboard">
+        <div class="mm-filter-group">
+            <div class="filter-label">Damage Type</div>
+            <div class="filter-row" id="mmGrpDmg">
+                <button class="f-btn" data-dmg="body"     onclick="mmSetDmg(this)">Body Damage</button>
+                <button class="f-btn" data-dmg="headshot" onclick="mmSetDmg(this)">Headshot</button>
+                <button class="f-btn" data-dmg="shield"   onclick="mmSetDmg(this)">Shield Break</button>
+                <button class="f-btn" data-dmg="best"     onclick="mmSetDmg(this)">Overall Best</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="mm-results" id="mmResults">
+        <div class="db-idle">
+            <svg width="56" height="56" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" class="db-idle-sun">
+                <circle cx="28" cy="28" r="24" fill="none" stroke="#1a0a04" stroke-width="0.5"/>
+                <circle cx="28" cy="28" r="18" fill="none" stroke="#220e06" stroke-width="0.5"/>
+                <circle cx="28" cy="28" r="12" fill="none" stroke="#2a1008" stroke-width="0.5" stroke-dasharray="3 4"/>
+                <circle cx="28" cy="28" r="7"  fill="none" stroke="#3a1408" stroke-width="1"/>
+                <circle cx="28" cy="28" r="3"  fill="#1a0604" stroke="#8b1a1a" stroke-width="0.8"/>
+                <polygon points="28,4  29.5,10  28,8.5  26.5,10"  fill="#4a1a1a"/>
+                <polygon points="28,52 29.5,46  28,47.5 26.5,46"  fill="#4a1a1a"/>
+                <polygon points="4,28  10,26.5  8.5,28  10,29.5"  fill="#4a1a1a"/>
+                <polygon points="52,28 46,26.5  47.5,28 46,29.5"  fill="#4a1a1a"/>
+            </svg>
+            <p class="db-idle-text">Select a damage type to reveal the rankings.</p>
+            <p class="db-idle-sub">Use augment slots to filter further</p>
+        </div>
+    </div>
+
+</main>
+</div>
+<div id="view-deepdesert" class="view">
+    <main class="container">
+        <section class="db-header" style="border: none; padding-top: 60px; flex-direction: column; align-items: flex-start;">
+    <h2 style="font-family: 'Cinzel', serif; font-size: 3rem; color: var(--gold); text-transform: uppercase; letter-spacing: 3px;">
+        Deep <span style="color: var(--blood-red);">Desert</span>
+    </h2>
+    <p style="color: var(--text-muted); font-family: 'Courier New', monospace; font-size: 0.8rem; margin-top: 5px; font-style: italic;">
+        * Best viewed at 100% browser zoom
+    </p>
+</section>
+
+        <div style="width: 100%; height: 75vh; overflow: hidden; position: relative; border: 1px solid var(--border-mid); margin-top: 24px;">
+            <iframe src="https://dune.gaming.tools/deep-desert"
+        style="position: absolute;
+               top: -15%;       /* Use percentage instead of px */
+               left: -15%;      /* Use percentage instead of px */
+               width: 130%;
+               height: 130%;
+               border: none;
+               transform: scale(1.10);"
+        scrolling="no">
+</iframe>
+        </div>
+    </main>
+</div>
+<footer>
+    <div class="container footer-inner">
+        <span>© House of the Hollow Sun · North America · Nova · Yaracuwan · Dune: Awakening · </span>
+        <a href="https://discord.gg/zNzHRwdEUU" target="_blank" class="footer-link">Seek Entry ➔</a>
+    </div>
+</footer>
+
+<script src="registry.js"></script>
+<script>
+function switchView(viewId) {
+    // Hide all views
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    // Remove active class from all navs
+    document.querySelectorAll('#mainNav a').forEach(a => a.classList.remove('active'));
+
+    // Show target view
+    document.getElementById('view-' + viewId).classList.add('active');
+
+    // Set active nav
+    const navItem = document.getElementById('nav-' + viewId);
+    if (navItem) navItem.classList.add('active');
+}
+    // ── State ──
+    let activeCategory = null;   // null = none, string = cat name, 'MULTI' = multi-station
+    let activeStation  = null;   // null = none, string = station name (exclusive mode)
+
+    const STATION_KEYS = {
+        "Station 24":  "s24",
+        "Station 89":  "s89",
+        "Station 136": "s136",
+        "Station 152": "s152",
+        "Station 195": "s195",
+        "The Quarry":  "qry"
+    };
+    const STATION_NAMES = Object.keys(STATION_KEYS);
+
+    function isMultiStation(row) {
+        return STATION_NAMES.filter(s => row[STATION_KEYS[s]] !== "—").length >= 2;
+    }
+    function isExclusiveTo(row, station) {
+        const key = STATION_KEYS[station];
+        if (row[key] === "—") return false;
+        return STATION_NAMES.filter(s => row[STATION_KEYS[s]] !== "—").length === 1;
+    }
+
+    // ── Toggle helpers ──
+    function setCategory(btn) {
+        const val = btn.dataset.cat;
+        if (activeCategory === val) {
+            activeCategory = null;
+            btn.classList.remove('active');
+        } else {
+            activeCategory = val;
+            document.querySelectorAll('#grpCat .f-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            // Station and category are mutually exclusive
+            activeStation = null;
+            document.querySelectorAll('#grpStation .f-btn').forEach(b => b.classList.remove('active'));
+        }
+        applyFilters();
+    }
+
+    function setStation(btn) {
+        // "All Stations" button lives in the station row but is a category filter
+        if (btn.dataset.cat === 'MULTI') { setCategory(btn); return; }
+
+        const val = btn.dataset.station;
+        if (activeStation === val) {
+            activeStation = null;
+            btn.classList.remove('active');
+        } else {
+            activeStation = val;
+            document.querySelectorAll('#grpStation .f-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            // Station and category are mutually exclusive
+            activeCategory = null;
+            document.querySelectorAll('#grpCat .f-btn').forEach(b => b.classList.remove('active'));
+        }
+        applyFilters();
+    }
+
+    // ── Main filter & render ──
+    function applyFilters() {
+        const q = document.getElementById('dbSearch').value.toLowerCase().trim();
+        const hasFilter = activeCategory || activeStation || q;
+
+        if (!hasFilter) { showIdle(); return; }
+
+        let filtered = masterLootRegistry.filter(row => {
+            if (q && !row.name.toLowerCase().includes(q)) return false;
+            if (activeCategory === 'MULTI') return isMultiStation(row);
+            if (activeCategory) return row.cat === activeCategory;
+            if (activeStation)  return isExclusiveTo(row, activeStation);
+            return true;
+        });
+
+        // Determine display mode
+        const exclusiveMode = !!activeStation;
+        const label = activeStation
+            ? `${activeStation} — exclusive drops`
+            : activeCategory === 'MULTI'
+                ? 'Found in multiple stations'
+                : activeCategory || 'Search results';
+
+        renderTable(filtered, label, exclusiveMode);
+    }
+
+    function rateClass(val) {
+        if (!val || val === "—") return "rate-none";
+        const n = parseInt(val);
+        if (n >= 10) return "rate-high";
+        if (n >= 5)  return "rate-mid";
+        return "rate-low";
+    }
+
+    function catClass(cat) {
+        return "cat-" + cat.toLowerCase();
+    }
+
+    function renderTable(items, label, exclusiveMode) {
+        const panel = document.getElementById('dbResults');
+        document.getElementById('db-count').textContent = items.length;
+
+        if (items.length === 0) {
+            panel.innerHTML = '<div class="db-empty">No items found in the archive.</div>';
+            return;
+        }
+
+        // Build header columns
+        let headerCols = '';
+        if (exclusiveMode) {
+            headerCols = `<th class="rate-th">Drop Rate</th>`;
+        } else {
+            headerCols = STATION_NAMES.map(s => `<th class="rate-th">${s.replace('Station ', '').replace('The Quarry', 'The Quarry')}</th>`).join('');
+        }
+
+        // Build rows
+        const rows = items.map(row => {
+            let rateCells = '';
+            if (exclusiveMode) {
+                const key = STATION_KEYS[activeStation];
+                const r = row[key];
+                rateCells = `<td class="td-rate ${rateClass(r)}">${r || '—'}</td>`;
+            } else {
+                rateCells = STATION_NAMES.map(s => {
+                    const r = row[STATION_KEYS[s]];
+                    return `<td class="td-rate ${rateClass(r)}">${r || '—'}</td>`;
+                }).join('');
+            }
+            return `<tr>
+                <td class="td-name">${row.name}</td>
+                <td class="td-cat ${catClass(row.cat)}">${row.cat}</td>
+                ${rateCells}
+            </tr>`;
+        }).join('');
+
+        panel.innerHTML = `
+            <div class="db-result-bar">
+                <span class="db-result-title">${label}</span>
+                <span class="db-result-count">${items.length} items</span>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr>
+                        <th>Item</th>
+                        <th>Category</th>
+                        ${headerCols}
+                    </tr></thead>
+                    <tbody>${rows}</tbody>
+                </table>
+            </div>`;
+    }
+
+    function showIdle() {
+        document.getElementById('db-count').textContent = masterLootRegistry.length;
+        document.getElementById('dbResults').innerHTML = `
+            <div class="db-idle">
+                <svg width="56" height="56" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" class="db-idle-sun">
+                    <circle cx="28" cy="28" r="24" fill="none" stroke="#1a0a04" stroke-width="0.5"/>
+                    <circle cx="28" cy="28" r="18" fill="none" stroke="#220e06" stroke-width="0.5"/>
+                    <circle cx="28" cy="28" r="12" fill="none" stroke="#2a1008" stroke-width="0.5" stroke-dasharray="3 4"/>
+                    <circle cx="28" cy="28" r="7"  fill="none" stroke="#3a1408" stroke-width="1"/>
+                    <circle cx="28" cy="28" r="3"  fill="#1a0604" stroke="#8b1a1a" stroke-width="0.8"/>
+                    <polygon points="28,4  29.5,10  28,8.5  26.5,10"  fill="#4a1a1a"/>
+                    <polygon points="28,52 29.5,46  28,47.5 26.5,46"  fill="#4a1a1a"/>
+                    <polygon points="4,28  10,26.5  8.5,28  10,29.5"  fill="#4a1a1a"/>
+                    <polygon points="52,28 46,26.5  47.5,28 46,29.5"  fill="#4a1a1a"/>
+                </svg>
+                <p class="db-idle-text">Select a category or station to reveal the archive.</p>
+                <p class="db-idle-sub">Or search by name above</p>
+            </div>`;
+    }
+
+    // ── Min/Max State ──
+    let mmActiveDmg = null;
+    let mmActiveAug = '3';
+
+    const MM_DATA = {
+        body3: [
+            { rank:1,  weapon:"Perforator",                       type:"Body",     build:["Heavy Caliber Upgrade","GRDA 44 Amplifier","Scattergun Rampage-Enhancement"],                  sdps:4099.8, bdps:5931.9,  notes:"" },
+            { rank:2,  weapon:"Regis Tripleshot Repeating Rifle", type:"Body",     build:["JABAL Spitdart Expander","Heavy Caliber Upgrade","JABAL Spitdart Amplifier"],                  sdps:3852.9, bdps:5401.8,  notes:"" },
+            { rank:3,  weapon:"Spitting Cobra",                   type:"Body",     build:["Heavy Caliber Upgrade","Disruptor M11 Sprayer","Disruptor M11 Heavy Kit"],                     sdps:3811.7, bdps:4740.4,  notes:"" },
+            { rank:4,  weapon:"Shellburster",                     type:"Body",     build:["Heavy Caliber Upgrade","Scattergun Rampage-Enhancement","Quick-release Trigger"],              sdps:3531.4, bdps:4350.6,  notes:"" },
+            { rank:5,  weapon:"Blind Fury",                       type:"Body",     build:["JABAL Spitdart Expander","Heavy Caliber Upgrade","JABAL Spitdart Amplifier"],                  sdps:3235.8, bdps:3888.0,  notes:"" },
+            { rank:6,  weapon:"Plasma Cannon",                    type:"Body",     build:["VULCAN GAU-92 Expander","Heavy Caliber Upgrade","VULCAN GAU-92 Disruptive Coating"],           sdps:3348.4, bdps:3348.4,  notes:"" },
+            { rank:7,  weapon:"The Hateful Barker",               type:"Body",     build:["VULCAN GAU-92 Expander","Heavy Caliber Upgrade","VULCAN GAU-92 Disruptive Coating"],           sdps:3131.8, bdps:3643.3,  notes:"" },
+            { rank:8,  weapon:"Sardaukar Intimidator",            type:"Body",     build:["Heavy Caliber Upgrade","Disruptor M11 Sprayer","Disruptor M11 Heavy Kit"],                     sdps:2872.5, bdps:3632.3,  notes:"" },
+            { rank:9,  weapon:"A Dart for Every Man",             type:"Body",     build:["Heavy Caliber Upgrade","Disruptor M11 Sprayer","Disruptor M11 Heavy Kit"],                     sdps:2784.4, bdps:3293.2,  notes:"" },
+            { rank:10, weapon:"Way of the Misr",                  type:"Body",     build:["Heavy Caliber Upgrade","Maula Pistol Expander","Maula Pistol Antipersonnel Rounds"],           sdps:2524.9, bdps:3077.8,  notes:"" },
+            { rank:11, weapon:"Dunewatcher",                      type:"Body",     build:["JABAL Spitdart Expander","Heavy Caliber Upgrade","JABAL Spitdart Amplifier"],                  sdps:2460.1, bdps:3596.7,  notes:"" },
+            { rank:12, weapon:"Black Market K-28 Lasgun",         type:"Body",     build:["Heavy Caliber Upgrade","Lasgun Amplifier","Lasgun Harmonizer"],                                sdps:2414.3, bdps:6386.2,  notes:"" },
+            { rank:13, weapon:"Bashar's Command",                 type:"Body",     build:["Heavy Caliber Upgrade","VULCAN GAU-92 Disruptive Coating","VULCAN GAU-92 Expander"],          sdps:2433.9, bdps:2911.0,  notes:"" },
+            { rank:14, weapon:"The Angry Adder",                  type:"Body",     build:["Heavy Caliber Upgrade","Karpov 38 Heavy Kit","Karpov 38 Precision Kit"],                       sdps:2143.5, bdps:2721.3,  notes:"" },
+            { rank:15, weapon:"Salusan Vengeance",                type:"Body",     build:["Heavy Caliber Upgrade","Karpov 38 Heavy Kit","Karpov 38 Precision Kit"],                       sdps:1990.3, bdps:2656.2,  notes:"" },
+            { rank:16, weapon:"Shishakli's Bite",                 type:"Body",     build:["Heavy Caliber Upgrade","Maula Pistol Expander","Maula Pistol Antipersonnel Rounds"],           sdps:1965.1, bdps:2600.9,  notes:"" },
+            { rank:17, weapon:"Hell-Fury Pistol",                 type:"Body",     build:["Heavy Caliber Upgrade","Rafiq Snubnose Expander","Rafiq Snubnose Heavy Kit"],                  sdps:1742.7, bdps:1986.7,  notes:"" },
+            { rank:18, weapon:"Seethe\u00B3",                     type:"Body",     build:["Heavy Caliber Upgrade","Rafiq Snubnose Expander","Rafiq Snubnose Heavy Kit"],                  sdps:1693.5, bdps:2568.1,  notes:"" },
+            { rank:19, weapon:"The Ancient Way\u00B2",            type:"Body",     build:["Heavy Caliber Upgrade","Missile Launcher Fragmenter","Missile Launcher Heavy Payload"],        sdps:1366.2, bdps:5279.3,  notes:"" },
+            { rank:20, weapon:"Vaporizer",                        type:"Body",     build:["Heavy Caliber Upgrade","Flamethrower Amplifier","Flamethrower Superheater"],                   sdps:1050.1, bdps:1291.7,  notes:"" },
+            { rank:21, weapon:"Regis Disruptor Pistol",           type:"Body",     build:["Heavy Caliber Upgrade","Rafiq Snubnose Disruptive Coating","Rafiq Snubnose Heavy Kit"],        sdps:1048.2, bdps:1206.9,  notes:"" },
+            { rank:22, weapon:"Indara's Lullaby",                 type:"Body",     build:["Heavy Caliber Upgrade","Karpov 38 Heavy Kit","Quick-release Trigger"],                         sdps:968.5,  bdps:1291.0,  notes:"" },
+            { rank:23, weapon:"Glasser",                          type:"Body",     build:["Heavy Caliber Upgrade","Flamethrower Amplifier","Flamethrower Superheater"],                   sdps:956.4,  bdps:1202.0,  notes:"" },
+            { rank:24, weapon:"Ambition",                         type:"Body",     build:["Heavy Caliber Upgrade","Drillshot FK 7 Sprayer","Drillshot FK7 Optimizer"],                    sdps:942.2,  bdps:1396.6,  notes:"" },
+            { rank:25, weapon:"Experimental Lightning Gun",       type:"Body",     build:["Heavy Caliber Upgrade","Karpov 38 Pressurizer","Quick-release Trigger"],                       sdps:784.2,  bdps:1443.8,  notes:"" },
+            { rank:26, weapon:"Penetrator",                       type:"Body",     build:["Drillshot FK 7 Sprayer","Heavy Caliber Upgrade","Drillshot FK7 Optimizer"],                    sdps:710.8,  bdps:1396.6,  notes:"" },
+            { rank:27, weapon:"Regis Burst Drillshot",            type:"Body",     build:["Heavy Caliber Upgrade","Drillshot FK 7 Sprayer","Drillshot FK7 Optimizer"],                    sdps:692.6,  bdps:981.8,   notes:"" },
+            { rank:28, weapon:"Plastanium Pyrocket",              type:"Body",     build:["Heavy Caliber Upgrade","Pyrocket Quickloader","Pyrocket Supercharger"],                        sdps:463.8,  bdps:1238.5,  notes:"" },
+        ],
+        headshot3: [
+            { rank:1,  weapon:"Spitting Cobra",                   type:"Headshot", build:["Heavy Caliber Upgrade","Disruptor M11 Sprayer","Disruptor M11 Personnel-Buster"],             sdps:6577.7, bdps:8419.5,  notes:"" },
+            { rank:2,  weapon:"Regis Tripleshot Repeating Rifle", type:"Headshot", build:["JABAL Spitdart Expander","Heavy Caliber Upgrade","JABAL Spitdart Amplifier"],                 sdps:5779.4, bdps:8102.7,  notes:"" },
+            { rank:3,  weapon:"Way of the Misr",                  type:"Headshot", build:["Heavy Caliber Upgrade","Maula Pistol Antipersonnel Rounds","Maula Pistol Expander"],          sdps:5049.7, bdps:6155.6,  notes:"" },
+            { rank:4,  weapon:"Blind Fury",                       type:"Headshot", build:["JABAL Spitdart Expander","Heavy Caliber Upgrade","JABAL Spitdart Amplifier"],                 sdps:4853.7, bdps:5832.0,  notes:"" },
+            { rank:5,  weapon:"The Angry Adder",                  type:"Headshot", build:["Heavy Caliber Upgrade","Karpov 38 Heavy Kit","Karpov 38 Precision Kit"],                      sdps:4293.2, bdps:5450.5,  notes:"" },
+            { rank:6,  weapon:"Seethe",                           type:"Headshot", build:["Rafiq Snubnose Heavy Kit","Heavy Caliber Upgrade","Rafiq Snubnose Expander"],                 sdps:4233.7, bdps:6420.2,  notes:"" },
+            { rank:7,  weapon:"Shishakli's Bite",                 type:"Headshot", build:["Heavy Caliber Upgrade","Maula Pistol Antipersonnel Rounds","Maula Pistol Expander"],          sdps:3930.2, bdps:5201.7,  notes:"" },
+            { rank:8,  weapon:"Hell-Fury Pistol",                 type:"Headshot", build:["Rafiq Snubnose Heavy Kit","Heavy Caliber Upgrade","Tactical Enhancer"],                       sdps:3880.2, bdps:4966.6,  notes:"" },
+            { rank:9,  weapon:"Seethe\u2074",                     type:"Headshot", build:["Rafiq Snubnose Heavy Kit","Heavy Caliber Upgrade","Tactical Enhancer"],                       sdps:3789.8, bdps:7704.3,  notes:"" },
+            { rank:10, weapon:"Blind Fury\u2074",                 type:"Headshot", build:["Tactical Enhancer","Heavy Caliber Upgrade","JABAL Spitdart Amplifier"],                       sdps:3700.2, bdps:5926.5,  notes:"" },
+            { rank:11, weapon:"Black Market K-28 Lasgun",         type:"Headshot", build:["Heavy Caliber Upgrade","Lasgun Amplifier","Lasgun Harmonizer"],                               sdps:3621.4, bdps:9579.3,  notes:"" },
+            { rank:12, weapon:"Dunewatcher",                      type:"Headshot", build:["JABAL Spitdart Expander","Heavy Caliber Upgrade","JABAL Spitdart Amplifier"],                 sdps:3511.0, bdps:5020.4,  notes:"" },
+            { rank:13, weapon:"Indara's Lullaby",                 type:"Headshot", build:["Heavy Caliber Upgrade","Karpov 38 Precision Kit","Quick-release Trigger"],                    sdps:1629.9, bdps:1829.0,  notes:"" },
+            { rank:14, weapon:"Experimental Lightning Gun",       type:"Headshot", build:["Karpov 38 Precision Kit","Heavy Caliber Upgrade","Tactical Enhancer"],                        sdps:1478.7, bdps:2860.7,  notes:"" },
+            { rank:15, weapon:"Ambition",                         type:"Headshot", build:["Heavy Caliber Upgrade","Drillshot FK 7 Sprayer","Drillshot FK7 Optimizer"],                   sdps:1413.2, bdps:2095.0,  notes:"" },
+            { rank:16, weapon:"Penetrator",                       type:"Headshot", build:["Drillshot FK 7 Sprayer","Heavy Caliber Upgrade","Drillshot FK7 Optimizer"],                   sdps:1066.2, bdps:2095.0,  notes:"" },
+            { rank:17, weapon:"Regis Burst Drillshot",            type:"Headshot", build:["Heavy Caliber Upgrade","Drillshot FK 7 Sprayer","Drillshot FK7 Optimizer"],                   sdps:1038.8, bdps:1472.7,  notes:"" },
+        ],
+        shield: [
+            { rank:1,  weapon:"The Ancient Way",                  type:"Shield",   build:["Capacity Expander (50%)","Disruptive Coating","Missile Launcher Obliterator"],                sdps:139.5,  bdps:823.2,   notes:"Capacity Expander with max roll (50%) gives 2 shots. Sustained DPS doesn't factor in lock-on times." },
+            { rank:2,  weapon:"Sardaukar Intimidator",            type:"Shield",   build:["Disruptor M11 Quickloader","Disruptive Coating","Disruptor M11 Sprayer"],                     sdps:582.4,  bdps:743.5,   notes:"" },
+            { rank:3,  weapon:"A Dart for Every Man",             type:"Shield",   build:["Disruptor M11 Quickloader","Disruptive Coating","Disruptor M11 Sprayer"],                     sdps:608.6,  bdps:725.8,   notes:"Requires high FPS to fire at listed RPM." },
+            { rank:4,  weapon:"Regis Disruptor Pistol",           type:"Shield",   build:["Disruptive Coating","Rafiq Snubnose Disruptive Coating","Rafiq Snubnose Expander"],           sdps:228.2,  bdps:711.2,   notes:"Burst uses single shot damage. Sustained factors in charge times and RPM." },
+            { rank:5,  weapon:"Spitting Cobra",                   type:"Shield",   build:["Disruptor M11 Quickloader","Disruptive Coating","Disruptor M11 Sprayer"],                     sdps:545.4,  bdps:685.4,   notes:"Higher unshielded damage vs other SMGs. Requires high FPS to fire at listed RPM." },
+            { rank:6,  weapon:"The Hateful Barker",               type:"Shield",   build:["VULCAN GAU-92 Disruptive Coating","VULCAN GAU-92 Expander","Quick-release Trigger"],          sdps:452.5,  bdps:551.5,   notes:"Swap VULCAN GAU-92 Expander for Disruptive Coating to get 630.3 Shield Burst DPS." },
+            { rank:7,  weapon:"Bashar's Command",                 type:"Shield",   build:["VULCAN GAU-92 Disruptive Coating","VULCAN GAU-92 Expander","Quick-release Trigger"],          sdps:436.8,  bdps:551.5,   notes:"Swap VULCAN GAU-92 Expander for Disruptive Coating to get 630.3 Shield Burst DPS." },
+            { rank:8,  weapon:"Plasma Cannon",                    type:"Shield",   build:["VULCAN GAU-92 Disruptive Coating","VULCAN GAU-92 Expander","Quick-release Trigger"],          sdps:393.0,  bdps:551.5,   notes:"Swap VULCAN GAU-92 Expander for Disruptive Coating to get 630.3 Shield Burst DPS." },
+            { rank:9,  weapon:"Experimental Lightning Gun",       type:"Shield",   build:["Quick-release Trigger","Disruptive Coating","Karpov 38 Pressurizer"],                         sdps:228.6,  bdps:421.0,   notes:"" },
+            { rank:10, weapon:"Hell-Fury Pistol",                 type:"Shield",   build:["Quick-release Trigger","Disruptive Coating","Rafiq Snubnose Disruptive Coating"],             sdps:182.0,  bdps:369.9,   notes:"" },
+            { rank:11, weapon:"Way of the Misr",                  type:"Shield",   build:["Maula Pistol Disruptive Coating","Maula Pistol Expander","Disruptive Coating"],               sdps:289.3,  bdps:363.2,   notes:"" },
+            { rank:12, weapon:"The Angry Adder",                  type:"Shield",   build:["Quick-release Trigger","Karpov 38 Precision Kit","Disruptive Coating"],                       sdps:264.5,  bdps:348.1,   notes:"" },
+            { rank:13, weapon:"Salusan Vengeance",                type:"Shield",   build:["Quick-release Trigger","Karpov 38 Precision Kit","Disruptive Coating"],                       sdps:250.6,  bdps:348.0,   notes:"" },
+            { rank:14, weapon:"Seethe",                           type:"Shield",   build:["Quick-release Trigger","Rafiq Snubnose Expander","Disruptive Coating"],                       sdps:164.6,  bdps:307.0,   notes:"" },
+            { rank:15, weapon:"Shishakli's Bite",                 type:"Shield",   build:["Maula Pistol Disruptive Coating","Maula Pistol Expander","Maula Pistol Sprayer"],             sdps:142.3,  bdps:209.7,   notes:"" },
+            { rank:16, weapon:"Regis Tripleshot Repeating Rifle", type:"Shield",   build:["Disruptive Coating","JABAL Spitdart Disruptive Coating","JABAL Spitdart Expander"],           sdps:125.2,  bdps:180.1,   notes:"" },
+            { rank:17, weapon:"Dunewatcher",                      type:"Shield",   build:["Disruptive Coating","JABAL Spitdart Disruptive Coating","JABAL Spitdart Expander"],           sdps:109.8,  bdps:163.7,   notes:"" },
+            { rank:18, weapon:"Blind Fury",                       type:"Shield",   build:["Disruptive Coating","JABAL Spitdart Disruptive Coating","JABAL Spitdart Expander"],           sdps:133.5,  bdps:163.4,   notes:"" },
+            { rank:19, weapon:"Indara's Lullaby",                 type:"Shield",   build:["Disruptive Coating","Quick-release Trigger","Karpov 38 Dart Sprayer"],                        sdps:114.2,  bdps:149.2,   notes:"" },
+            { rank:20, weapon:"Shellburster",                     type:"Shield",   build:["Quick-release Trigger","GRDA 44 Expander","Disruptive Coating"],                              sdps:123.7,  bdps:146.6,   notes:"" },
+            { rank:21, weapon:"Perforator",                       type:"Shield",   build:["Quick-release Trigger","GRDA 44 Expander","Disruptive Coating"],                              sdps:96.8,   bdps:143.1,   notes:"" },
+            { rank:22, weapon:"Plastanium Pyrocket",              type:"Shield",   build:["Pyrocket Decimator","Capacity Expander","Pyrocket Supercharger"],                             sdps:17.4,   bdps:59.5,    notes:"" },
+            { rank:23, weapon:"Vaporizer",                        type:"Shield",   build:["Flamethrower Superheater","Flamethrower Amplifier","Flamethrower Superheater"],               sdps:38.1,   bdps:48.3,    notes:"" },
+            { rank:24, weapon:"Glasser",                          type:"Shield",   build:["Flamethrower Superheater","Flamethrower Amplifier","Flamethrower Superheater"],               sdps:36.5,   bdps:48.3,    notes:"" },
+        ],
+        best3: [
+            { rank:1,  weapon:"Perforator",                       type:"Body",     build:["Heavy Caliber Upgrade","GRDA 44 Amplifier","Scattergun Rampage-Enhancement"],                 sdps:4099.8, bdps:5931.9,  notes:"" },
+            { rank:2,  weapon:"Hell-Fury Pistol",                 type:"Headshot", build:["Rafiq Snubnose Heavy Kit","Heavy Caliber Upgrade","Tactical Enhancer"],                       sdps:3880.2, bdps:4966.6,  notes:"Seethe's burst damage is much higher than Hell-Fury." },
+            { rank:3,  weapon:"Regis Tripleshot Repeating Rifle", type:"Body",     build:["JABAL Spitdart Expander","Heavy Caliber Upgrade","JABAL Spitdart Amplifier"],                 sdps:3852.9, bdps:5401.8,  notes:"" },
+            { rank:4,  weapon:"Spitting Cobra",                   type:"Body",     build:["Heavy Caliber Upgrade","Disruptor M11 Sprayer","Disruptor M11 Heavy Kit"],                    sdps:3811.7, bdps:4740.4,  notes:"" },
+            { rank:5,  weapon:"Seethe",                           type:"Headshot", build:["Rafiq Snubnose Heavy Kit","Heavy Caliber Upgrade","Tactical Enhancer"],                       sdps:3789.8, bdps:7704.3,  notes:"Rafiq Snubnose Expander gives a bigger clip but can't maintain accuracy over full clip." },
+            { rank:6,  weapon:"Shellburster",                     type:"Body",     build:["Heavy Caliber Upgrade","Scattergun Rampage-Enhancement","Quick-release Trigger"],             sdps:3531.4, bdps:4350.6,  notes:"Quick-release Trigger keeps DPS high without using a GRDA Amplifier." },
+            { rank:7,  weapon:"Dunewatcher",                      type:"Headshot", build:["JABAL Spitdart Expander","Heavy Caliber Upgrade","JABAL Spitdart Amplifier"],                 sdps:3511.0, bdps:5020.4,  notes:"Can't maintain accuracy for full clip. JABAL Spitdart Toxicity Amplifier is an alternative for PVP." },
+            { rank:8,  weapon:"Plasma Cannon",                    type:"Body",     build:["VULCAN GAU-92 Expander","Heavy Caliber Upgrade","VULCAN GAU-92 Disruptive Coating"],          sdps:3348.4, bdps:3348.4,  notes:"" },
+            { rank:9,  weapon:"Blind Fury",                       type:"Body",     build:["JABAL Spitdart Expander","Heavy Caliber Upgrade","JABAL Spitdart Amplifier"],                 sdps:3235.8, bdps:3888.0,  notes:"" },
+            { rank:10, weapon:"The Hateful Barker",               type:"Body",     build:["VULCAN GAU-92 Expander","Heavy Caliber Upgrade","VULCAN GAU-92 Disruptive Coating"],          sdps:3131.8, bdps:3643.3,  notes:"Very inaccurate." },
+            { rank:11, weapon:"Sardaukar Intimidator",            type:"Body",     build:["Heavy Caliber Upgrade","Disruptor M11 Sprayer","Disruptor M11 Heavy Kit"],                    sdps:2872.5, bdps:3632.3,  notes:"See Shield Break rankings for shield damage build." },
+            { rank:12, weapon:"A Dart for Every Man",             type:"Body",     build:["Heavy Caliber Upgrade","Disruptor M11 Sprayer","Disruptor M11 Heavy Kit"],                    sdps:2784.4, bdps:3293.2,  notes:"See Shield Break rankings for shield damage build." },
+            { rank:13, weapon:"Way of the Misr",                  type:"Body",     build:["Heavy Caliber Upgrade","Maula Pistol Expander","Maula Pistol Antipersonnel Rounds"],          sdps:2524.9, bdps:3077.8,  notes:"" },
+            { rank:14, weapon:"Bashar's Command",                 type:"Body",     build:["Heavy Caliber Upgrade","VULCAN GAU-92 Disruptive Coating","VULCAN GAU-92 Expander"],         sdps:2433.9, bdps:2911.0,  notes:"" },
+            { rank:15, weapon:"Black Market K-28 Lasgun",         type:"Body",     build:["Heavy Caliber Upgrade","Lasgun Amplifier","Lasgun Harmonizer"],                               sdps:2414.3, bdps:6386.2,  notes:"" },
+            { rank:16, weapon:"The Angry Adder",                  type:"Body",     build:["Heavy Caliber Upgrade","Karpov 38 Heavy Kit","Karpov 38 Precision Kit"],                      sdps:2143.5, bdps:2721.3,  notes:"See Headshot Rankings for headshot damage. Can't maintain accuracy for full clip." },
+            { rank:17, weapon:"Salusan Vengeance",                type:"Body",     build:["Heavy Caliber Upgrade","Karpov 38 Heavy Kit","Karpov 38 Precision Kit"],                      sdps:1990.3, bdps:2656.2,  notes:"Can't headshot." },
+            { rank:18, weapon:"Shishakli's Bite",                 type:"Body",     build:["Heavy Caliber Upgrade","Maula Pistol Expander","Maula Pistol Antipersonnel Rounds"],          sdps:1965.1, bdps:2600.9,  notes:"" },
+            { rank:19, weapon:"The Ancient Way\u00B2",            type:"Body",     build:["Heavy Caliber Upgrade","Missile Launcher Fragmenter","Missile Launcher Heavy Payload"],       sdps:1366.2, bdps:5279.3,  notes:"See Shield Break Rankings for shield damage build. Requires 50% Capacity Expander." },
+            { rank:20, weapon:"Vaporizer",                        type:"Body",     build:["Heavy Caliber Upgrade","Flamethrower Amplifier","Flamethrower Superheater"],                  sdps:1050.1, bdps:1291.7,  notes:"Metric doesn't factor in burn damage." },
+            { rank:21, weapon:"Regis Disruptor Pistol",           type:"Body",     build:["Heavy Caliber Upgrade","Rafiq Snubnose Disruptive Coating","Rafiq Snubnose Expander"],       sdps:1048.2, bdps:1206.9,  notes:"See Shield Break rankings for shield damage build." },
+            { rank:22, weapon:"Indara's Lullaby",                 type:"Body",     build:["Heavy Caliber Upgrade","Karpov 38 Heavy Kit","Quick-release Trigger"],                        sdps:968.5,  bdps:1291.0,  notes:"" },
+            { rank:23, weapon:"Glasser",                          type:"Body",     build:["Heavy Caliber Upgrade","Flamethrower Amplifier","Flamethrower Superheater"],                  sdps:956.4,  bdps:1202.0,  notes:"Metric doesn't factor in burn damage." },
+            { rank:24, weapon:"Ambition",                         type:"Body",     build:["Heavy Caliber Upgrade","Drillshot FK 7 Sprayer","Drillshot FK7 Optimizer"],                   sdps:942.2,  bdps:1396.6,  notes:"Deals \u00D71.5 damage through shields." },
+            { rank:25, weapon:"Experimental Lightning Gun",       type:"Body",     build:["Heavy Caliber Upgrade","Karpov 38 Pressurizer","Quick-release Trigger"],                      sdps:784.2,  bdps:1443.8,  notes:"See Shield Break rankings for shield damage build. Body damage used in PVP." },
+            { rank:26, weapon:"Penetrator",                       type:"Body",     build:["Drillshot FK 7 Sprayer","Heavy Caliber Upgrade","Drillshot FK7 Optimizer"],                   sdps:710.8,  bdps:1396.6,  notes:"Deals \u00D71.5 damage through shields. Cannot bleed through shields." },
+            { rank:27, weapon:"Regis Burst Drillshot",            type:"Body",     build:["Heavy Caliber Upgrade","Drillshot FK 7 Sprayer","Drillshot FK7 Optimizer"],                   sdps:692.6,  bdps:981.8,   notes:"Deals \u00D71.5 damage through shields." },
+            { rank:28, weapon:"Plastanium Pyrocket",              type:"Body",     build:["Heavy Caliber Upgrade","Pyrocket Quickloader","Pyrocket Supercharger"],                       sdps:463.8,  bdps:1238.5,  notes:"Metric doesn't factor in burn damage." },
+        ]
+    };
+
+    const MM_AUG_LOCKED_TYPES = new Set(['headshot', 'shield']);
+
+    function mmGetData() {
+        if (!mmActiveDmg) return null;
+        if (mmActiveAug !== '3') return null;
+        if (mmActiveDmg === 'body')     return { rows: MM_DATA.body3,     label: 'Body Damage — 3 Augments' };
+        if (mmActiveDmg === 'headshot') return { rows: MM_DATA.headshot3, label: 'Headshot — 3 Augments (100% Accuracy)' };
+        if (mmActiveDmg === 'shield')   return { rows: MM_DATA.shield,    label: 'Shield Break — 3 Augments' };
+        if (mmActiveDmg === 'best')     return { rows: MM_DATA.best3,     label: 'Overall Best — 3 Augments' };
+        return null;
+    }
+
+    function mmDpsClass(val, maxVal) {
+        if (maxVal === 0) return 'dps-low';
+        const ratio = val / maxVal;
+        if (ratio >= 0.70) return 'dps-high';
+        if (ratio >= 0.35) return 'dps-mid';
+        return 'dps-low';
+    }
+
+    function mmFmt(n) { return n.toFixed(1).replace(/\.0$/, ''); }
+
+    function mmWeaponDisplay(name) {
+        return name.replace(/([²³⁴⁵⁶⁷⁸⁹¹])/g, '<sup>$1</sup>');
+    }
+
+    function mmTypeClass(type) {
+        const t = type.toLowerCase();
+        if (t === 'body')     return 'mm-type-body';
+        if (t === 'headshot') return 'mm-type-headshot';
+        if (t === 'shield')   return 'mm-type-shield';
+        return '';
+    }
+
+    function mmShowIdle() {
+        document.getElementById('mmResults').innerHTML = `
+            <div class="db-idle">
+                <svg width="56" height="56" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" class="db-idle-sun">
+                    <circle cx="28" cy="28" r="24" fill="none" stroke="#1a0a04" stroke-width="0.5"/>
+                    <circle cx="28" cy="28" r="18" fill="none" stroke="#220e06" stroke-width="0.5"/>
+                    <circle cx="28" cy="28" r="12" fill="none" stroke="#2a1008" stroke-width="0.5" stroke-dasharray="3 4"/>
+                    <circle cx="28" cy="28" r="7"  fill="none" stroke="#3a1408" stroke-width="1"/>
+                    <circle cx="28" cy="28" r="3"  fill="#1a0604" stroke="#8b1a1a" stroke-width="0.8"/>
+                    <polygon points="28,4  29.5,10  28,8.5  26.5,10"  fill="#4a1a1a"/>
+                    <polygon points="28,52 29.5,46  28,47.5 26.5,46"  fill="#4a1a1a"/>
+                    <polygon points="4,28  10,26.5  8.5,28  10,29.5"  fill="#4a1a1a"/>
+                    <polygon points="52,28 46,26.5  47.5,28 46,29.5"  fill="#4a1a1a"/>
+                </svg>
+                <p class="db-idle-text">Select a damage type to reveal the rankings.</p>
+                <p class="db-idle-sub">Use augment slots to filter further</p>
+            </div>`;
+    }
+
+    function mmUpdateAugButtons() {
+        document.querySelectorAll('#mmGrpAug .f-btn').forEach(b => {
+            if (b.dataset.aug !== '3') {
+                b.classList.add('f-btn-disabled');
+                b.classList.remove('active');
+            } else {
+                b.classList.remove('f-btn-disabled');
+            }
+        });
+        if (mmActiveDmg && MM_AUG_LOCKED_TYPES.has(mmActiveDmg)) {
+            mmActiveAug = '3';
+            document.querySelectorAll('#mmGrpAug .f-btn').forEach(b => {
+                b.classList.remove('active');
+                if (b.dataset.aug === '3') b.classList.add('active');
+            });
+        }
+    }
+
+    function mmRender() {
+        if (!mmActiveDmg) { mmShowIdle(); return; }
+        mmUpdateAugButtons();
+
+        if (mmActiveAug !== '3') {
+            const augLabel = mmActiveAug === '2' ? '2 Augments' : '1 Augment';
+            const dmgLabel = { body:'Body Damage', headshot:'Headshot', shield:'Shield Break', best:'Overall Best' }[mmActiveDmg] || '';
+            document.getElementById('mmResults').innerHTML = `
+                <div class="mm-result-bar">
+                    <span class="mm-result-title">${dmgLabel} — ${augLabel}</span>
+                    <span class="mm-result-count">0 entries</span>
+                </div>
+                <div class="mm-no-data">No ${augLabel} data available for this category.</div>`;
+            return;
+        }
+
+        const dataset = mmGetData();
+        if (!dataset) { mmShowIdle(); return; }
+
+        const rows = dataset.rows;
+        const hasNotes = rows.some(r => r.notes);
+        const showType = (mmActiveDmg === 'best');
+        const maxSdps = Math.max(...rows.map(r => r.sdps));
+        const maxBdps = Math.max(...rows.map(r => r.bdps));
+
+        const typeHeader  = showType  ? '<th>Type</th>'  : '';
+        const notesHeader = hasNotes  ? '<th>Notes</th>' : '';
+
+        const rowsHtml = rows.map(r => {
+            const buildLines = r.build.map(a => `<span class="build-aug">\u00B7 ${a}</span>`).join('');
+            const sdpsClass  = mmDpsClass(r.sdps, maxSdps);
+            const bdpsClass  = mmDpsClass(r.bdps, maxBdps);
+            const typeCell   = showType  ? `<td class="td-type ${mmTypeClass(r.type)}">${r.type}</td>` : '';
+            const notesCell  = hasNotes  ? `<td class="td-notes">${r.notes || ''}</td>` : '';
+            return `<tr>
+                <td class="td-rank">${r.rank}</td>
+                <td class="td-weapon">${mmWeaponDisplay(r.weapon)}</td>
+                ${typeCell}
+                <td class="td-build">${buildLines}</td>
+                <td class="td-dps ${sdpsClass}">${mmFmt(r.sdps)}</td>
+                <td class="td-dps ${bdpsClass}">${mmFmt(r.bdps)}</td>
+                ${notesCell}
+            </tr>`;
+        }).join('');
+
+        document.getElementById('mmResults').innerHTML = `
+            <div class="mm-result-bar">
+                <span class="mm-result-title">${dataset.label}</span>
+                <span class="mm-result-count">${rows.length} weapons</span>
+            </div>
+            <div class="mm-table-wrap">
+                <table>
+                    <thead><tr>
+                        <th class="th-num">Rank</th>
+                        <th>Weapon</th>
+                        ${typeHeader}
+                        <th>Best Build</th>
+                        <th class="th-num">Sustained DPS</th>
+                        <th class="th-num">Burst DPS</th>
+                        ${notesHeader}
+                    </tr></thead>
+                    <tbody>${rowsHtml}</tbody>
+                </table>
+            </div>`;
+    }
+
+    function mmSetDmg(btn) {
+        const val = btn.dataset.dmg;
+        if (mmActiveDmg === val) {
+            mmActiveDmg = null;
+            btn.classList.remove('active');
+            mmActiveAug = '3';
+            document.querySelectorAll('#mmGrpAug .f-btn').forEach(b => b.classList.remove('active'));
+            mmUpdateAugButtons();
+            mmShowIdle();
+            return;
+        }
+        mmActiveDmg = val;
+        document.querySelectorAll('#mmGrpDmg .f-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        mmActiveAug = '3';
+        document.querySelectorAll('#mmGrpAug .f-btn').forEach(b => b.classList.remove('active'));
+        const aug3btn = document.querySelector('#mmGrpAug [data-aug="3"]');
+        if (aug3btn) aug3btn.classList.add('active');
+        mmRender();
+    }
+
+    function mmSetAug(btn) {
+        if (btn.classList.contains('f-btn-disabled')) return;
+        const val = btn.dataset.aug;
+        if (mmActiveAug === val) {
+            mmActiveAug = null;
+            btn.classList.remove('active');
+        } else {
+            mmActiveAug = val;
+            document.querySelectorAll('#mmGrpAug .f-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+        mmRender();
+    }
+</script>
+</body>
+</html>
