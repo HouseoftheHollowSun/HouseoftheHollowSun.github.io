@@ -37,8 +37,7 @@ body {
 /* ── Hero ── */
 .hero {
     position: relative;
-    max-width: 1600px;
-    margin: 0 auto;
+    width: 100%;
 }
 .hero-img {
     display: block;
