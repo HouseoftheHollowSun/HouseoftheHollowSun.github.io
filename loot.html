@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loot Archive · House of the Hollow Sun</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="topbar">
+    <div class="container">
+        <a href="index.html" class="logo">☽ House of the <span class="logo-dim">Hollow Sun</span></a>
+        <nav class="page-nav"><a href="loot.html" class="btn active">Loot</a><a href="minmax.html" class="btn">Min/Max</a><a href="deep-desert.html" class="btn">Deep Desert</a></nav>
+    </div>
+</div>
+<div class="blood-bar"></div>
+
+<main class="container">
+
+    <section class="db-header">
+        <div>
+            <h2>Loot Intelligence Archive</h2>
+            <p>Strategic item yields mapped across all known overland testing facility sectors.</p>
+        </div>
+        <div style="text-align:right;">
+            <div class="db-total" id="db-count">193</div>
+            <div class="db-total-label">Items catalogued</div>
+        </div>
+    </section>
+
+    <div class="filter-dashboard">
+        <div class="search-wrap">
+            <input type="text" id="dbSearch" class="db-search"
+                   placeholder="Search the archive by item name..."
+                   oninput="applyFilters()">
+        </div>
+
+        <div class="filter-label">Category</div>
+        <div class="filter-row" id="grpCat">
+            <button class="f-btn" data-cat="Weapons"       onclick="setCategory(this)">Weapons</button>
+            <button class="f-btn" data-cat="Augmentations" onclick="setCategory(this)">Augmentations</button>
+            <button class="f-btn" data-cat="Garments"      onclick="setCategory(this)">Garments</button>
+            <button class="f-btn" data-cat="Tools"         onclick="setCategory(this)">Tools</button>
+            <button class="f-btn" data-cat="Consumables"   onclick="setCategory(this)">Consumables</button>
+        </div>
+
+        <div class="filter-label">Station — exclusive drops only</div>
+        <div class="filter-row" id="grpStation">
+            <button class="f-btn" data-cat="MULTI" onclick="setCategory(this)">All Stations</button>
+            <button class="f-btn" data-station="Station 24"  onclick="setStation(this)">Station 24</button>
+            <button class="f-btn" data-station="Station 89"  onclick="setStation(this)">Station 89</button>
+            <button class="f-btn" data-station="Station 136" onclick="setStation(this)">Station 136</button>
+            <button class="f-btn" data-station="Station 152" onclick="setStation(this)">Station 152</button>
+            <button class="f-btn" data-station="Station 195" onclick="setStation(this)">Station 195</button>
+            <button class="f-btn" data-station="The Quarry"  onclick="setStation(this)">The Quarry</button>
+        </div>
+    </div>
+
+    <div class="db-results" id="dbResults">
+        <div class="db-idle" id="dbIdle">
+            <svg width="56" height="56" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" class="db-idle-sun">
+                <circle cx="28" cy="28" r="24" fill="none" stroke="#1a0a04" stroke-width="0.5"/>
+                <circle cx="28" cy="28" r="18" fill="none" stroke="#220e06" stroke-width="0.5"/>
+                <circle cx="28" cy="28" r="12" fill="none" stroke="#2a1008" stroke-width="0.5" stroke-dasharray="3 4"/>
+                <circle cx="28" cy="28" r="7"  fill="none" stroke="#3a1408" stroke-width="1"/>
+                <circle cx="28" cy="28" r="3"  fill="#1a0604" stroke="#8b1a1a" stroke-width="0.8"/>
+                <polygon points="28,4  29.5,10  28,8.5  26.5,10"  fill="#4a1a1a"/>
+                <polygon points="28,52 29.5,46  28,47.5 26.5,46"  fill="#4a1a1a"/>
+                <polygon points="4,28  10,26.5  8.5,28  10,29.5"  fill="#4a1a1a"/>
+                <polygon points="52,28 46,26.5  47.5,28 46,29.5"  fill="#4a1a1a"/>
+            </svg>
+            <p class="db-idle-text">Select a category or station to reveal the archive.</p>
+            <p class="db-idle-sub">Or search by name above</p>
+        </div>
+    </div>
+
+</main>
+
+<footer>
+    © House of the Hollow Sun · North America · Nova · Yaracuwan · Dune: Awakening
+</footer>
+
+<script src="registry.js"></script>
+<script src="loot.js"></script>
+</body>
+</html>
